@@ -17,5 +17,5 @@ fig = px.scatter_mapbox(temp, lat='Latitude', lon='Longitude', size='QT_DESKTOP_
 
 st.plotly_chart(fig, use_container_width=False, sharing="streamlit", theme="streamlit")
 
-st.txt('Dados do Censo Escolar 2021')
+st.text('Dados do Censo Escolar 2021')
 df_escolasSP
