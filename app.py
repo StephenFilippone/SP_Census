@@ -4,7 +4,7 @@ import streamlit as st
 
 df_escolasSP = pd.read_csv("escolas_2021_SP.csv", sep=',', encoding = "ascii")
 
-df_escolasSP
+st.title('Escolas de São Paulo :blue[colors] and emojis :sunglasses:')
 
 temp = df_escolasSP.dropna(subset=['QT_DESKTOP_ALUNO'])
 temp = temp[temp['QT_DESKTOP_ALUNO']!=88888]
@@ -16,3 +16,6 @@ fig = px.scatter_mapbox(temp, lat='Latitude', lon='Longitude', size='QT_DESKTOP_
 
 
 st.plotly_chart(fig, use_container_width=False, sharing="streamlit", theme="streamlit")
+
+st.txt('Dados do Censo Escolar 2021')
+df_escolasSP
