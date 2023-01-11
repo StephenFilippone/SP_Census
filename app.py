@@ -4,7 +4,7 @@ import streamlit as st
 
 df_escolasSP = pd.read_csv("escolas_2021_SP.csv", sep=',', encoding = "ascii")
 
-st.title('Escolas de São Paulo :blue[colors] and emojis :sunglasses:')
+st.title('Escolas de São Paulo :blue[2021] :sunglasses:')
 
 temp = df_escolasSP.dropna(subset=['QT_DESKTOP_ALUNO'])
 temp = temp[temp['QT_DESKTOP_ALUNO']!=88888]
