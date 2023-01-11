@@ -16,7 +16,7 @@ fig = px.scatter_mapbox(temp, lat='Latitude', lon='Longitude', size='QT_DESKTOP_
                                     QT_MAT_BAS_15_17=True, 
                                     Latitude=False, 
                                     Longitude=False))
-
+fig.update_layout(margin={"r":0,"t":0,"l":0,"b":0})
 
 st.plotly_chart(fig, use_container_width=True, sharing="streamlit", theme=None)
 st.caption('O mapa mostra a quantidade de desktop que tem cada escola. O tamanho da bolha representa a quantidade de desktops.')
