@@ -1,6 +1,6 @@
 import pandas as pd
 import plotly.express as px
-import streamlit
+import streamlit as st
 
 df_escolasSP = pd.read_csv("escolas_2021_SP.csv", sep=',', encoding = "ascii")
 
@@ -15,4 +15,4 @@ fig = px.scatter_mapbox(temp, lat='Latitude', lon='Longitude', size='QT_DESKTOP_
                         mapbox_style="stamen-terrain", hover_name='NO_ENTIDADE', hover_data=['QT_MAT_BAS_11_14','QT_MAT_BAS_15_17'])
 
 
-fig.show()
+st.plotly_chart(fig, use_container_width=False, sharing="streamlit", theme="streamlit")
