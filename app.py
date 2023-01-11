@@ -51,7 +51,9 @@ with tab2:
 with tab3:
     st.header("Matriculas 11-14")
 
-    fig3 = px.scatter_mapbox(df_escolasSP, lat='Latitude', lon='Longitude', size='QT_MAT_BAS_11_14',
+    temp3 = df_escolasSP.dropna(subset=['QT_MAT_BAS_11_14'])
+    
+    fig3 = px.scatter_mapbox(temp3, lat='Latitude', lon='Longitude', size='QT_MAT_BAS_11_14',
                         center=dict(lat=-23.55, lon=-46.6), zoom=9.5,
                         mapbox_style="stamen-terrain",  hover_name='NO_ENTIDADE', hover_data=dict(
                                     QT_MAT_BAS_15_17=True, 
