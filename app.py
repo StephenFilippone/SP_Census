@@ -12,7 +12,7 @@ temp = temp[temp['QT_DESKTOP_ALUNO']!=0]
 
 fig = px.scatter_mapbox(temp, lat='Latitude', lon='Longitude', size='QT_DESKTOP_ALUNO',
                         center=dict(lat=-23.55, lon=-46.6), zoom=9.5,
-                        mapbox_style="stamen-terrain", hoverinfo='text', hover_name='NO_ENTIDADE', hover_data=['QT_MAT_BAS_11_14','QT_MAT_BAS_15_17'])
+                        mapbox_style="stamen-terrain", hover_name='NO_ENTIDADE', hover_data=['QT_MAT_BAS_11_14','QT_MAT_BAS_15_17'])
 
 
 st.plotly_chart(fig, use_container_width=False, sharing="streamlit", theme="streamlit")
