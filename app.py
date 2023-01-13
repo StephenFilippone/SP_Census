@@ -79,6 +79,8 @@ with tab3:
             text = ["42", "TUMO",],textposition = "bottom right"
             
     ))
+    
+    fig3.update_layout(margin={"r":0,"t":0,"l":0,"b":0})
 
     st.plotly_chart(fig3, use_container_width=True, sharing="streamlit", theme=None)
     st.caption('O mapa mostra a quantidade de desktop que tem cada escola. O tamanho da bolha representa a quantidade de desktops.')
