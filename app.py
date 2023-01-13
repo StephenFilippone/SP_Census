@@ -58,6 +58,7 @@ with tab3:
                 go.Scattermapbox(
                 lat=temp3["Latitude"],
                 lon = temp3['Longitude'],
+                showlegend=False,
                 mode='markers',
                 marker=go.scattermapbox.Marker(
                 size=temp3['QT_MAT_BAS_15_17']*25/(temp3['QT_MAT_BAS_15_17'].max())
@@ -74,6 +75,7 @@ with tab3:
     fig3.add_trace(go.Scattermapbox(
             lat=[-23.557162590546906, -23.559738635227205],
             lon=[-46.68954674702313, -46.69842457794723],
+            showlegend=False,
             mode='markers+text',
             marker={'size':10, 'symbol':['star','star']},
             text = ["42", "TUMO",],textposition = "bottom right"
