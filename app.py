@@ -3,7 +3,7 @@ import plotly.express as px
 import plotly.graph_objects as go
 import streamlit as st
 
-df_escolasSP = pd.read_csv("escolas_2021_SP.csv", sep=',', encoding = "ascii")
+df_escolasSP = pd.read_csv("escolas_2021_SP.csv", sep=',', encoding = "utf-8")
 
 st.title('Escolas de São Paulo 2021 :sunglasses:')
 
@@ -12,7 +12,7 @@ tab1, tab2, tab3 = st.tabs(["Desktops", "Comp Portatil", "Matriculas 11-14"])
 with tab1:
     st.header("Número de Desktops")
    
-    temp1 = df_escolasSP
+    temp1 = df_escolasSP.dropna(subset=['QT_MAT_BAS_15_17'])
 
     mapbox_access_token = open("TUMO.mapbox_token").read()
 
@@ -62,7 +62,9 @@ with tab1:
 with tab2:
     st.header("Número de Computadores Portateis")
    
-    temp2 = df_escolasSP
+    temp2 = df_escolasSP.dropna(subset=['QT_COMP_PORTATIL_ALUNO'])
+    temp2 = temp2[temp2['QT_COMP_PORTATIL_ALUNO']!=88888]
+    temp2 = temp2[temp2['QT_COMP_PORTATIL_ALUNO']!=0]
 
     fig2 = px.scatter_mapbox(temp2, lat='Latitude', lon='Longitude', size='QT_COMP_PORTATIL_ALUNO',
                         center=dict(lat=-23.55, lon=-46.6), zoom=9.5,
@@ -78,7 +80,7 @@ with tab2:
     st.caption('QT_MAT_BAS_15_17 representa o número de Matrículas na Educação Básica entre 15 e 17 anos de idade')
 
 with tab3:
-    temp3 = df_escolasSP
+    temp3 = df_escolasSP.dropna(subset=['QT_MAT_BAS_15_17'])
 
     mapbox_access_token = open("TUMO.mapbox_token").read()
 
