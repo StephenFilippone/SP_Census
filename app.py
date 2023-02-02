@@ -7,12 +7,13 @@ df_escolasSP = pd.read_csv("escolas_2021_SP.csv", sep=',', encoding = "utf-8")
 
 st.title('Escolas de São Paulo 2021 :sunglasses:')
 
-tab1, tab2, tab3 = st.tabs(["Desktops", "Comp Portatil", "Matriculas 11-14"])
+tab1, tab2, tab3 = st.tabs(["Comps/Aluno", "Comp Portatil", "Matriculas 11-14"])
 
 with tab1:
-    st.header("Número de Desktops")
-   
-    temp1 = df_escolasSP.dropna(subset=['QT_MAT_BAS_15_17'])
+    st.header("Número de Computadores por Aluno")
+    
+    temp1 = df_escolasSP.dropna(subset=['STUDENTS_11_17'])
+    temp1 = temp1[temp1['STUDENTS_11_17']!=0]
 
     mapbox_access_token = open("TUMO.mapbox_token").read()
 
@@ -21,11 +22,17 @@ with tab1:
                 lat=temp1["Latitude"],
                 lon = temp1['Longitude'],
                 mode='markers',
-                hovertext=temp1['NO_ENTIDADE'],
-                customdata=temp1['QT_MAT_BAS_15_17'],
+                text=temp1['NO_ENTIDADE'],
                 showlegend=False,
+                customdata= temp1['STUDENTS_11_17'],
+                hovertemplate='Escola:  %{text} <br>' +
+                            'Alunos: %{customdata} <br>' +
+                            'Comps/Aluno: %{marker.color}' + '<extra></extra>',
                 marker=go.scattermapbox.Marker(
-                size=temp1['QT_MAT_BAS_15_17']*35/(temp1['QT_MAT_BAS_15_17'].max()),
+                sizemode='area',
+                sizemin=3,
+                sizeref=2.*temp1['STUDENTS_11_17'].max()/(35.**2),
+                size=temp1['STUDENTS_11_17'],
                 color=temp1['COMPS_PER_STUDENT'],
                 cmax=1,
                 cmin=0,
@@ -33,7 +40,8 @@ with tab1:
                 title="Comp/Aluno"
             ),
             colorscale="portland")
-    ))
+        
+            ))
 
 
     fig1.update_layout(mapbox=dict(
