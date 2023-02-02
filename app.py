@@ -27,7 +27,7 @@ with tab1:
                 customdata= temp1['STUDENTS_11_17'],
                 hovertemplate='Escola:  %{text} <br>' +
                             'Alunos: %{customdata} <br>' +
-                            'Comps/Aluno: %{marker.color}' + '<extra></extra>',
+                            'Comps/Aluno: %{marker.color:.00%}' + '<extra></extra>',
                 marker=go.scattermapbox.Marker(
                 sizemode='area',
                 sizemin=3,
