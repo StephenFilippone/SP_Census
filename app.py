@@ -64,8 +64,8 @@ with tab1:
 
     st.plotly_chart(fig1, use_container_width=True, sharing="streamlit", theme=None)
     st.caption('O mapa mostra a quantidade de desktop que tem cada escola. O tamanho da bolha representa a quantidade de desktops.')
-    st.caption('QT_MAT_BAS_11_14 representa o número de Matrículas na Educação Básica entre 11 e 14 anos de idade')
-    st.caption('QT_MAT_BAS_15_17 representa o número de Matrículas na Educação Básica entre 15 e 17 anos de idade')
+    st.caption('Comps/Aluno é o total de (Desktops + Tablets) divido por matrículas na Educação Básica entre 11 e 17 anos de idade')
+    
 
 with tab2:
     st.header("Número de Computadores Portateis")
