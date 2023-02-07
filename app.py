@@ -140,7 +140,7 @@ with tab3:
                 customdata= temp3['QT_MAT_BAS_15_17'],
                 hovertemplate='Escola:  %{text} <br>' +
                             'Alunos: %{customdata} <br>' +
-                            'Comps/Aluno: %{marker.color}' + '<extra></extra>',
+                            'Math + LP: %{marker.color}' + '<extra></extra>',
                 marker=go.scattermapbox.Marker(
                 sizemode='area',
                 sizemin=3,
