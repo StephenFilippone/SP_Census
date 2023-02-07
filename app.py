@@ -9,7 +9,7 @@ df_SARESP = pd.read_csv("SARESP_2021_SP.csv", sep=',', encoding = "utf-8")
 
 st.title('Escolas de São Paulo 2021 :sunglasses:')
 
-tab1, tab2, tab3 = st.tabs(["Comps/Aluno", "Dados Saeb", "Dados SARESP São Paulo"])
+tab1, tab2, tab3 = st.tabs(["Comps/Aluno", "Dados Saeb Brasil", "Dados SARESP São Paulo"])
 
 with tab1:
     st.header("Número de Computadores por Aluno")
@@ -66,11 +66,11 @@ with tab1:
 
     st.plotly_chart(fig1, use_container_width=True, sharing="streamlit", theme=None)
     st.caption('O mapa mostra a quantidade de desktop que tem cada escola. O tamanho da bolha representa a quantidade de matriculas.')
-    st.caption('Comps/Aluno é o total de (Desktops + Tablets) divido por matrículas na Educação Básica entre 11 e 17 anos de idade')
+    #st.caption('Comps/Aluno é o total de (Desktops + Tablets) divido por matrículas na Educação Básica entre 11 e 17 anos de idade')
     
 
 with tab2:
-    st.header("Média de Math e Português do Ensino Médio")
+    st.header("Média de Math e Português do Ensino Médio do Saeb")
    
     temp2 = df_Saeb.dropna(subset='MEDIA_12_MT')
 
@@ -122,11 +122,10 @@ with tab2:
     ))
 
     st.plotly_chart(fig2, use_container_width=True, sharing="streamlit", theme=None)
-    st.caption('O mapa mostra a quantidade de desktop que tem cada escola. O tamanho da bolha representa a quantidade de desktops.')
-    
+    st.caption('O mapa mostra o score combinado de Math e Português de cada município')
 
 with tab3:
-    st.header("Média de Math e Português do Ensino Médio")
+    st.header("Média de Math e Português do Ensino Médio do SARESP")
     mapbox_access_token = open("TUMO.mapbox_token").read()
 
     temp3 = df_SARESP
@@ -147,11 +146,11 @@ with tab3:
                 sizemin=3,
                 sizeref=2.*temp3['QT_MAT_BAS_15_17'].max()/(35.**2),
                 size=temp3['QT_MAT_BAS_15_17'],
-                color=temp3['MATEMÁTICA'],
+                color=temp3['MAT_PT_TOTAL'],
                 #cmax=1,
                 #cmin=0,
                 colorbar=dict(
-                title="Comp/Aluno"
+                title="Total Score Math + Português"
             ),
             colorscale="portland")
         
@@ -177,7 +176,7 @@ with tab3:
 
 
     st.plotly_chart(fig3, use_container_width=True, sharing="streamlit", theme=None)
-    st.caption('O mapa mostra a quantidade de desktop que tem cada escola. O tamanho da bolha representa a quantidade de desktops.')
+    st.caption('O mapa mostra o score combinado de Math e Português de cada escola. O tamanho da bolha representa o número de matriculas entre 15 e 17 anos')
   
     # st.header("Matriculas 11-14")
 
@@ -202,5 +201,5 @@ with tab3:
 
 
 
-st.text('Dados do Censo Escolar 2021')
-df_escolasSP
+#st.text('Dados do Censo Escolar 2021')
+#df_escolasSP
