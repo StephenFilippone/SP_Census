@@ -5,10 +5,11 @@ import streamlit as st
 
 df_escolasSP = pd.read_csv("escolas_2021_SP.csv", sep=',', encoding = "utf-8")
 df_Saeb = pd.read_csv("slit_Saeb_2021.csv", sep=',', encoding = "utf-8")
+df_SARESP = pd.read_csv("SARESP_2021_SP.csv", sep=',', encoding = "utf-8")
 
 st.title('Escolas de São Paulo 2021 :sunglasses:')
 
-tab1, tab2, tab3 = st.tabs(["Comps/Aluno", "Dados Saeb", "Matriculas 11-14"])
+tab1, tab2, tab3 = st.tabs(["Comps/Aluno", "Dados Saeb", "Dados SARESP São Paulo"])
 
 with tab1:
     st.header("Número de Computadores por Aluno")
@@ -64,7 +65,7 @@ with tab1:
 
 
     st.plotly_chart(fig1, use_container_width=True, sharing="streamlit", theme=None)
-    st.caption('O mapa mostra a quantidade de desktop que tem cada escola. O tamanho da bolha representa a quantidade de desktops.')
+    st.caption('O mapa mostra a quantidade de desktop que tem cada escola. O tamanho da bolha representa a quantidade de matriculas.')
     st.caption('Comps/Aluno é o total de (Desktops + Tablets) divido por matrículas na Educação Básica entre 11 e 17 anos de idade')
     
 
@@ -122,49 +123,62 @@ with tab2:
 
     st.plotly_chart(fig2, use_container_width=True, sharing="streamlit", theme=None)
     st.caption('O mapa mostra a quantidade de desktop que tem cada escola. O tamanho da bolha representa a quantidade de desktops.')
-    st.caption('QT_MAT_BAS_11_14 representa o número de Matrículas na Educação Básica entre 11 e 14 anos de idade')
-    st.caption('QT_MAT_BAS_15_17 representa o número de Matrículas na Educação Básica entre 15 e 17 anos de idade')
+    
 
 with tab3:
-    temp3 = df_escolasSP.dropna(subset=['QT_MAT_BAS_15_17'])
-
+    st.header("Média de Math e Português do Ensino Médio")
     mapbox_access_token = open("TUMO.mapbox_token").read()
+
+    temp3 = df_SARESP
 
     fig3 = go.Figure(
                 go.Scattermapbox(
                 lat=temp3["Latitude"],
                 lon = temp3['Longitude'],
-                showlegend=False,
                 mode='markers',
+                text=temp3['NO_ENTIDADE'],
+                showlegend=False,
+                customdata= temp3['QT_MAT_BAS_15_17'],
+                hovertemplate='Escola:  %{text} <br>' +
+                            'Alunos: %{customdata} <br>' +
+                            'Comps/Aluno: %{marker.color}' + '<extra></extra>',
                 marker=go.scattermapbox.Marker(
-                size=temp3['QT_MAT_BAS_15_17']*25/(temp3['QT_MAT_BAS_15_17'].max())
+                sizemode='area',
+                sizemin=3,
+                sizeref=2.*temp3['QT_MAT_BAS_15_17'].max()/(35.**2),
+                size=temp3['QT_MAT_BAS_15_17'],
+                color=temp3['MATEMÁTICA'],
+                #cmax=1,
+                #cmin=0,
+                colorbar=dict(
+                title="Comp/Aluno"
             ),
-    ))
+            colorscale="portland")
+        
+            ))
 
 
     fig3.update_layout(mapbox=dict(
             accesstoken=mapbox_access_token,
+            style="outdoors",
             center=dict(
                 lat=-23.55,
-                lon=-46.6), zoom=10))
+                lon=-46.6), zoom=10),margin={"r":0,"t":0,"l":0,"b":0},)
 
     fig3.add_trace(go.Scattermapbox(
             lat=[-23.557162590546906, -23.559738635227205],
             lon=[-46.68954674702313, -46.69842457794723],
-            showlegend=False,
             mode='markers+text',
+            showlegend=False,
             marker={'size':10, 'symbol':['star','star']},
             text = ["42", "TUMO",],textposition = "bottom right"
             
     ))
-    
-    fig3.update_layout(margin={"r":0,"t":0,"l":0,"b":0})
+
 
     st.plotly_chart(fig3, use_container_width=True, sharing="streamlit", theme=None)
     st.caption('O mapa mostra a quantidade de desktop que tem cada escola. O tamanho da bolha representa a quantidade de desktops.')
-    st.caption('QT_MAT_BAS_11_14 representa o número de Matrículas na Educação Básica entre 11 e 14 anos de idade')
-    st.caption('QT_MAT_BAS_15_17 representa o número de Matrículas na Educação Básica entre 15 e 17 anos de idade')
-
+  
     # st.header("Matriculas 11-14")
 
     # temp3 = df_escolasSP.dropna(subset=['QT_MAT_BAS_11_14'])
