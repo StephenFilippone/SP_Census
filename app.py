@@ -96,7 +96,7 @@ with tab2:
                 #cmax=1,
                 #cmin=0,
                 colorbar=dict(
-                title="Média saeb"
+                title="Total Score Math + Português"
             ),
             colorscale="jet")
         
