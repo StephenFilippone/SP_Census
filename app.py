@@ -4,10 +4,11 @@ import plotly.graph_objects as go
 import streamlit as st
 
 df_escolasSP = pd.read_csv("escolas_2021_SP.csv", sep=',', encoding = "utf-8")
+df_Saeb = pd.read_csv("slit_Saeb_2021.csv", sep=',', encoding = "utf-8")
 
 st.title('Escolas de São Paulo 2021 :sunglasses:')
 
-tab1, tab2, tab3 = st.tabs(["Comps/Aluno", "Comp Portatil", "Matriculas 11-14"])
+tab1, tab2, tab3 = st.tabs(["Comps/Aluno", "Dados Saeb", "Matriculas 11-14"])
 
 with tab1:
     st.header("Número de Computadores por Aluno")
@@ -68,19 +69,56 @@ with tab1:
     
 
 with tab2:
-    st.header("Número de Computadores Portateis")
+    st.header("Média de Math e Português do Ensino Médio")
    
-    temp2 = df_escolasSP.dropna(subset=['QT_COMP_PORTATIL_ALUNO'])
-    temp2 = temp2[temp2['QT_COMP_PORTATIL_ALUNO']!=88888]
-    temp2 = temp2[temp2['QT_COMP_PORTATIL_ALUNO']!=0]
+    temp2 = df_Saeb.dropna(subset='MEDIA_12_MT')
 
-    fig2 = px.scatter_mapbox(temp2, lat='Latitude', lon='Longitude', size='QT_COMP_PORTATIL_ALUNO',
-                        center=dict(lat=-23.55, lon=-46.6), zoom=9.5,
-                        mapbox_style="stamen-terrain",  hover_name='NO_ENTIDADE', hover_data=dict(QT_MAT_BAS_11_14=True,
-                                    QT_MAT_BAS_15_17=True, 
-                                    Latitude=False, 
-                                    Longitude=False))
-    fig2.update_layout(margin={"r":0,"t":0,"l":0,"b":0})
+    mapbox_access_token = open("TUMO.mapbox_token").read()
+
+    fig2 = go.Figure(
+                go.Scattermapbox(
+                lat=temp2["latitude"],
+                lon = temp2['longitude'],
+                mode='markers',
+                text=temp2['NO_MUNICIPIO'],
+                showlegend=False,
+                #customdata= temp['QT_MAT_BAS_15_17'],
+                hovertemplate='Município:  %{text} <br>' +
+                            #'Alunos: %{customdata} <br>' +
+                            'Math + LP: %{marker.color}' + '<extra></extra>',
+                marker=go.scattermapbox.Marker(
+                #sizemode='area',
+                #sizemin=3,
+                #sizeref=2.*temp['QT_MAT_BAS_15_17'].max()/(35.**2),
+                #size=temp['QT_MAT_BAS_15_17'],
+                color=temp2['total_score'],
+                #cmax=1,
+                #cmin=0,
+                colorbar=dict(
+                title="Média saeb"
+            ),
+            colorscale="jet")
+        
+            ))
+
+
+    fig2.update_layout(mapbox=dict(
+            accesstoken=mapbox_access_token,
+            style="outdoors",
+            center=dict(
+                lat=-15.793889,
+                lon=-47.882778), 
+                zoom=3),margin={"r":0,"t":0,"l":0,"b":0},)
+
+    fig2.add_trace(go.Scattermapbox(
+            lat=[-23.557162590546906, -23.559738635227205],
+            lon=[-46.68954674702313, -46.69842457794723],
+            mode='markers+text',
+            showlegend=False,
+            marker={'size':10, 'symbol':['star','star']},
+            text = ["42", "TUMO",],textposition = "bottom right"
+            
+    ))
 
     st.plotly_chart(fig2, use_container_width=True, sharing="streamlit", theme=None)
     st.caption('O mapa mostra a quantidade de desktop que tem cada escola. O tamanho da bolha representa a quantidade de desktops.')
